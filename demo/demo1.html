@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vue2-learning-notes by liuyuanquan</title>
+    <link rel="stylesheet" href="./demo.css"></link>
+  </head>
+  <body>
+    <div class="header">
+      <h1>每隔一秒插入一行</h1>
+    </div>
+    <div class="vue-test-container">
+      <div id="example"></div>
+    </div>
+    <div class="footer">
+      <p>@copyright <a href="https://github.com/liuyuanquan">@liuyuanquan</a> 2020</p>
+    </div>
+    <a href="https://github.com/liuyuanquan/vue2-learning-notes" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;"
+        src="http://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67"
+        alt="Fork me on GitHub"
+        data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
+    </a>
+    <script src="../dist/v1.1.js"></script>
+    <script>
+      const c = function(tag, children) {
+        if (children) {
+          for (let i = 0;i < children.length;i++) {
+            let c = children[i]
+            if (typeof c === 'string') {
+              children[i] = t(c)
+            }
+          }
+        }
+        return new VNode(tag, children, undefined, null)
+      }
+
+      const t = function(text) {
+        return new VNode(null, [], text, null)
+      }
+
+      const render = function(vnode) {
+        patch(oldVnode, vnode)
+        oldVnode = vnode
+      }
+
+      let container = document.getElementById('example')
+      let oldVnode = new VNode('div', [], '', container)
+
+      render(c('div', ['Line 1']))
+
+      let n = 2
+      setInterval(() => {
+        const newArr = []
+        for (let i = 1;i <= n;i++) {
+          newArr.push(c('p', ['Line' + i]))
+        }
+        render(c('div', newArr))
+        n++
+      }, 1000)
+    </script>
+  </body>
+</html>
